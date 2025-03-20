@@ -7,5 +7,5 @@ export const initSocket = async () => {
     timeout: 10000,
     transports: ["websocket", "polling"], // Added 'polling' as a fallback
   };
-  return io("http://13.200.237.178:5001", options); // Replace with your EC2 IP or domain
+  return io(process.env.REACT_APP_BASE_URL, options); // Replace with your EC2 IP or domain
 };
