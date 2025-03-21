@@ -4,13 +4,12 @@ const Canvas = ({ socketRef, roomId }) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [color, setColor] = useState("#000000"); // Default black color
+  const [color, setColor] = useState("#000000");
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    // Set initial canvas properties
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.strokeStyle = color;
@@ -19,21 +18,14 @@ const Canvas = ({ socketRef, roomId }) => {
     const startDrawing = (event) => {
       setIsDrawing(true);
       ctx.beginPath();
-      ctx.moveTo(
-        event.clientX - canvas.offsetLeft,
-        event.clientY - canvas.offsetTop
-      );
+      ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
     };
 
     const draw = (event) => {
       if (!isDrawing) return;
-      ctx.lineTo(
-        event.clientX - canvas.offsetLeft,
-        event.clientY - canvas.offsetTop
-      );
+      ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
       ctx.stroke();
 
-      // Emit drawing data
       if (socketRef.current) {
         socketRef.current.emit("drawing", {
           roomId,
@@ -54,7 +46,6 @@ const Canvas = ({ socketRef, roomId }) => {
     canvas.addEventListener("mouseup", stopDrawing);
     canvas.addEventListener("mouseleave", stopDrawing);
 
-    // Listen for drawing data from other users
     if (socketRef.current) {
       socketRef.current.on("drawing", ({ x, y, color }) => {
         ctx.strokeStyle = color;
@@ -71,7 +62,6 @@ const Canvas = ({ socketRef, roomId }) => {
     };
   }, [socketRef, roomId, isDrawing, color]);
 
-  // Function to clear the canvas
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
@@ -79,27 +69,27 @@ const Canvas = ({ socketRef, roomId }) => {
   };
 
   return (
-    <div
-      style={{ position: "absolute", top: "50px", left: "350px", zIndex: 100 }}
-    >
-      {/* Toolbar */}
-      <div style={{ marginBottom: "10px" }}>
-        <label>Color: </label>
+    <div className="absolute top-0 left-0 w-full h-full p-4">
+      <div className="mb-2">
+        <label className="text-white">Color: </label>
         <input
           type="color"
           value={color}
           onChange={(e) => setColor(e.target.value)}
+          className="ml-2"
         />
-        <button onClick={clearCanvas} style={{ marginLeft: "10px" }}>
+        <button
+          onClick={clearCanvas}
+          className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+        >
           Clear
         </button>
       </div>
-      {/* Canvas */}
       <canvas
         ref={canvasRef}
-        width={800}
-        height={500}
-        style={{ border: "2px solid black", background: "white" }}
+        width={window.innerWidth - 32}
+        height={window.innerHeight - 120}
+        className="border-2 border-black bg-white"
       />
     </div>
   );
