@@ -33,7 +33,7 @@ app.use("/api/", userRoutes);
 app.use("/api/", outputRoutes);
 
 
-app.use(express.static(path.join(__dirname, "public"))) // Serve static files
+app.use(express.static(path.join(__dirname, "../public/dist"))) // Serve static files
 
 const server = http.createServer(app)
 // const io = new Server(server, {
@@ -293,7 +293,7 @@ const PORT = process.env.PORT || 3000
 
 app.get("/", (req: Request, res: Response) => {
 	// Send the index.html file
-	res.sendFile(path.join(__dirname, "..", "public", "index.html"))
+	res.sendFile(path.join(__dirname,"../public/dist/index.html"))
 })
 
 server.listen(PORT, () => {
