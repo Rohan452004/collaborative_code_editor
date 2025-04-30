@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CodeIt</title>
+        <meta name="title" content="Code Sync - Realtime Code Collaboration" />
+        <meta
+            name="description"
+            content="Enjoy real-time collaboration on Code Sync with the unique code editor. Get features like syntax highlighting, auto-suggestions, seamless file editing, saving, and downloading. Communicate with ease through the integrated group chat. Try Code Sync today!"
+        />
+        <meta name="keywords" content="Code, Collaboration, Sync" />
+
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <link
+            rel="mask-icon"
+            href="/favicon/safari-pinned-tab.svg"
+            color="#5bbad5"
+        />
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+            name="msapplication-config"
+            content="/favicon/browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <!-- Font for UI -->
+        <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+            rel="stylesheet"
+        /> -->
+        <!-- Fonts for Code Editor -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&family=Cousine:wght@400;700&family=Fira+Code:wght@400;500;700&family=Inconsolata:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Jura:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&family=Source+Code+Pro:wght@400;500;700&family=Space+Mono:wght@400;700&family=Ubuntu+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+      <script type="module" crossorigin src="/assets/index-DfXTMg6g.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/charenc-CI8Jn5z4.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-C0JOplFJ.js">
+      <link rel="modulepreload" crossorigin href="/assets/scheduler-C323NY8X.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-dom-CqXdU6rh.js">
+      <link rel="modulepreload" crossorigin href="/assets/@remix-run-DaH1AUis.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-router-veBPla2P.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-router-dom-DDEld2U6.js">
+      <link rel="modulepreload" crossorigin href="/assets/goober-vt3s6TGe.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-hot-toast-CSyfbE95.js">
+      <link rel="modulepreload" crossorigin href="/assets/@react-oauth-DTzcgrkO.js">
+      <link rel="modulepreload" crossorigin href="/assets/engine.io-parser-BiEtp6m2.js">
+      <link rel="modulepreload" crossorigin href="/assets/@socket.io-Dkula2eQ.js">
+      <link rel="modulepreload" crossorigin href="/assets/engine.io-client-DBBxzneW.js">
+      <link rel="modulepreload" crossorigin href="/assets/socket.io-parser-BBkuslX-.js">
+      <link rel="modulepreload" crossorigin href="/assets/socket.io-client-pgtUPCnp.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-icons-DNJWuuEK.js">
+      <link rel="modulepreload" crossorigin href="/assets/motion-utils-BDWe_Wef.js">
+      <link rel="modulepreload" crossorigin href="/assets/motion-dom-DnIdl6pN.js">
+      <link rel="modulepreload" crossorigin href="/assets/framer-motion-DWKON2yR.js">
+      <link rel="modulepreload" crossorigin href="/assets/uuid-CtRu48qb.js">
+      <link rel="modulepreload" crossorigin href="/assets/axios-BtuGy7By.js">
+      <link rel="modulepreload" crossorigin href="/assets/file-saver-Djip2q1l.js">
+      <link rel="modulepreload" crossorigin href="/assets/jszip-CtSIKovu.js">
+      <link rel="modulepreload" crossorigin href="/assets/devlop-Cl3hj7Sz.js">
+      <link rel="modulepreload" crossorigin href="/assets/bail-FqpXQuLt.js">
+      <link rel="modulepreload" crossorigin href="/assets/extend-D1C0LVzC.js">
+      <link rel="modulepreload" crossorigin href="/assets/is-plain-obj-C1gvLhAf.js">
+      <link rel="modulepreload" crossorigin href="/assets/trough-B_b8ryxu.js">
+      <link rel="modulepreload" crossorigin href="/assets/unist-util-stringify-position-Ch_qCilz.js">
+      <link rel="modulepreload" crossorigin href="/assets/vfile-message-Bq256rVA.js">
+      <link rel="modulepreload" crossorigin href="/assets/vfile-tbz-BywF.js">
+      <link rel="modulepreload" crossorigin href="/assets/unified-BW-7GApn.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-decode-numeric-character-reference-CNs1qBpV.js">
+      <link rel="modulepreload" crossorigin href="/assets/decode-named-character-reference-C3-224fz.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-decode-string-strjl-tx.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-normalize-identifier-C9ANKk3v.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-chunked-DrRIdSP-.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-combine-extensions-Bka6Sc1c.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-character-Ch8j4vtg.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-factory-space-CA-Wq7KA.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-classify-character-GCpR5yWH.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-resolve-all-PQCKh0dx.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-subtokenize-BC4BSQ9J.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-factory-destination-CkgxUJuk.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-factory-label-U15tx9Nh.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-factory-title-reCpaPbc.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-factory-whitespace-_v4v79HM.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-html-tag-name-DbKNfynz.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-core-commonmark-CDnWrFBr.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-DhRKOnvZ.js">
+      <link rel="modulepreload" crossorigin href="/assets/mdast-util-to-string-C_aolqmU.js">
+      <link rel="modulepreload" crossorigin href="/assets/mdast-util-from-markdown-CgCUhJTR.js">
+      <link rel="modulepreload" crossorigin href="/assets/remark-parse-C8jcMe6G.js">
+      <link rel="modulepreload" crossorigin href="/assets/@ungap-DDJC10qW.js">
+      <link rel="modulepreload" crossorigin href="/assets/micromark-util-sanitize-uri-WGc3xW3f.js">
+      <link rel="modulepreload" crossorigin href="/assets/unist-util-position-60F3QETU.js">
+      <link rel="modulepreload" crossorigin href="/assets/trim-lines-D8znQY54.js">
+      <link rel="modulepreload" crossorigin href="/assets/unist-util-is-D9KQvrmg.js">
+      <link rel="modulepreload" crossorigin href="/assets/unist-util-visit-parents-BC5uWo4u.js">
+      <link rel="modulepreload" crossorigin href="/assets/unist-util-visit-C5MGqtgf.js">
+      <link rel="modulepreload" crossorigin href="/assets/mdast-util-to-hast--qmxlI7R.js">
+      <link rel="modulepreload" crossorigin href="/assets/remark-rehype-C7cpKZXR.js">
+      <link rel="modulepreload" crossorigin href="/assets/comma-separated-tokens-xMQ5YY98.js">
+      <link rel="modulepreload" crossorigin href="/assets/property-information-Bcl-LqRA.js">
+      <link rel="modulepreload" crossorigin href="/assets/space-separated-tokens-DD3iYX1K.js">
+      <link rel="modulepreload" crossorigin href="/assets/inline-style-parser-D4u_cg7q.js">
+      <link rel="modulepreload" crossorigin href="/assets/style-to-object-Oc--562q.js">
+      <link rel="modulepreload" crossorigin href="/assets/style-to-js-CDqmnN_d.js">
+      <link rel="modulepreload" crossorigin href="/assets/hast-util-whitespace-D4Wp6AEg.js">
+      <link rel="modulepreload" crossorigin href="/assets/estree-util-is-identifier-name-BgBfM8ME.js">
+      <link rel="modulepreload" crossorigin href="/assets/hast-util-to-jsx-runtime-BLSwkn7M.js">
+      <link rel="modulepreload" crossorigin href="/assets/html-url-attributes-D46m5wfe.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-markdown-jH1aUftD.js">
+      <link rel="modulepreload" crossorigin href="/assets/@babel-BM-RmR6T.js">
+      <link rel="modulepreload" crossorigin href="/assets/xtend-VQg9yHl6.js">
+      <link rel="modulepreload" crossorigin href="/assets/hast-util-parse-selector-BXt8oe2z.js">
+      <link rel="modulepreload" crossorigin href="/assets/hastscript-Cxyc55ZY.js">
+      <link rel="modulepreload" crossorigin href="/assets/refractor-BVbasmXx.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-syntax-highlighter-DiSsqK0z.js">
+      <link rel="modulepreload" crossorigin href="/assets/vscode-icons-js-Chox8ZBA.js">
+      <link rel="modulepreload" crossorigin href="/assets/@iconify-zFJnPiHX.js">
+      <link rel="modulepreload" crossorigin href="/assets/classnames-C5re8Ct7.js">
+      <link rel="modulepreload" crossorigin href="/assets/lang-map-nLg5Kdxm.js">
+      <link rel="modulepreload" crossorigin href="/assets/@lezer-Csp4QB38.js">
+      <link rel="modulepreload" crossorigin href="/assets/crelt-C8TCjufn.js">
+      <link rel="modulepreload" crossorigin href="/assets/style-mod-gVpFNjS1.js">
+      <link rel="modulepreload" crossorigin href="/assets/w3c-keyname-Vcq4gwWv.js">
+      <link rel="modulepreload" crossorigin href="/assets/@codemirror-DpmaQCQz.js">
+      <link rel="modulepreload" crossorigin href="/assets/codemirror-lang-mermaid-CgP1sc6u.js">
+      <link rel="modulepreload" crossorigin href="/assets/@replit-CtI0wgL6.js">
+      <link rel="modulepreload" crossorigin href="/assets/@nextjournal-W5TzFINk.js">
+      <link rel="modulepreload" crossorigin href="/assets/colors-named-CSGyx1iI.js">
+      <link rel="modulepreload" crossorigin href="/assets/colors-named-hex-Db6HdBCI.js">
+      <link rel="modulepreload" crossorigin href="/assets/hsl-matcher-CyxH9sTP.js">
+      <link rel="modulepreload" crossorigin href="/assets/@uiw-BHH1nj_4.js">
+      <link rel="modulepreload" crossorigin href="/assets/core-js-pure-C4mLA_hu.js">
+      <link rel="modulepreload" crossorigin href="/assets/prop-types-yNpOvJnk.js">
+      <link rel="modulepreload" crossorigin href="/assets/is-retina-BzLP6e3E.js">
+      <link rel="modulepreload" crossorigin href="/assets/crypt-VTvMai_Y.js">
+      <link rel="modulepreload" crossorigin href="/assets/is-buffer-DMJNLjvk.js">
+      <link rel="modulepreload" crossorigin href="/assets/md5-BDDM8jU4.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-avatar-C7zsmaTv.js">
+      <link rel="modulepreload" crossorigin href="/assets/split.js-CPyVEc61.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-split-CyJlspd4.js">
+      <link rel="modulepreload" crossorigin href="/assets/@floating-ui-C8o30Yd9.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-tooltip-DEIaoqXy.js">
+      <link rel="modulepreload" crossorigin href="/assets/lodash.isequal-CWPzDpkQ.js">
+      <link rel="modulepreload" crossorigin href="/assets/@use-gesture-yVpL0cNb.js">
+      <link rel="modulepreload" crossorigin href="/assets/lodash.throttle-yuuEgjvB.js">
+      <link rel="modulepreload" crossorigin href="/assets/lodash.uniq-BHEsPF9E.js">
+      <link rel="modulepreload" crossorigin href="/assets/eventemitter3-D4IiiiOJ.js">
+      <link rel="modulepreload" crossorigin href="/assets/idb-Bn1DMRyg.js">
+      <link rel="modulepreload" crossorigin href="/assets/core-js-Dkw2Z0CP.js">
+      <link rel="modulepreload" crossorigin href="/assets/@tldraw-DPVKUOq8.js">
+      <link rel="modulepreload" crossorigin href="/assets/tslib-CDuPK5Eb.js">
+      <link rel="modulepreload" crossorigin href="/assets/get-nonce-C-Z93AgS.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-style-singleton-Ve9apNMX.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-remove-scroll-bar-Bft53YsI.js">
+      <link rel="modulepreload" crossorigin href="/assets/use-sidecar-CJ33BHOn.js">
+      <link rel="modulepreload" crossorigin href="/assets/use-callback-ref-CcqRhUnC.js">
+      <link rel="modulepreload" crossorigin href="/assets/react-remove-scroll-CjY7KAXu.js">
+      <link rel="modulepreload" crossorigin href="/assets/aria-hidden-DQ5UC2Eg.js">
+      <link rel="modulepreload" crossorigin href="/assets/@radix-ui-DbwEOBZe.js">
+      <link rel="modulepreload" crossorigin href="/assets/lz-string-CzHELm9r.js">
+      <link rel="modulepreload" crossorigin href="/assets/canvas-size-BJ7hgjqk.js">
+      <link rel="modulepreload" crossorigin href="/assets/hotkeys-js-BfWqkGRU.js">
+      <link rel="modulepreload" crossorigin href="/assets/tldraw-pbfXqsY2.js">
+      <link rel="modulepreload" crossorigin href="/assets/screenfull-DmVOzVZz.js">
+      <link rel="modulepreload" crossorigin href="/assets/lucide-react-7zFe_D2k.js">
+      <link rel="stylesheet" crossorigin href="/assets/index-Bn1Tt0SE.css">
+    </head>
+    <body class="bg-dark text-white">
+        <div id="root"></div>
+    </body>
+</html>

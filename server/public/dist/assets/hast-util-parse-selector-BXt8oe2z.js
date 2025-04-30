@@ -1,0 +1,1 @@
+var i,c;function p(){if(c)return i;c=1,i=u;var n=/[#.]/g;function u(h,o){for(var t=h||"",v=o||"div",r={},a=0,e,l,s;a<t.length;)n.lastIndex=a,s=n.exec(t),e=t.slice(a,s?s.index:t.length),e&&(l?l==="#"?r.id=e:r.className?r.className.push(e):r.className=[e]:v=e,a+=e.length),s&&(l=s[0],a++);return{type:"element",tagName:v,properties:r,children:[]}}return i}export{p as r};
