@@ -33,9 +33,10 @@ const server = http_1.default.createServer(app);
 // 	maxHttpBufferSize: 1e8,
 // 	pingTimeout: 60000,
 // })
+console.log("frotnedn url:", process.env.FRONTEND_URL);
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || "http://localhost:5173",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
         credentials: true,
     },
@@ -259,10 +260,10 @@ io.on("connection", (socket) => {
     });
 });
 const PORT = process.env.PORT || 3000;
-app.get("/", (req, res) => {
-    // Send the index.html file
-    res.sendFile(path_1.default.join(__dirname, "../public/dist/index.html"));
-});
+// app.get("/", (req: Request, res: Response) => {
+// 	// Send the index.html file
+// 	res.sendFile(path.join(__dirname,"../public/dist/index.html"))
+// })
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
