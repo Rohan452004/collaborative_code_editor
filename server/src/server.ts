@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(express.json())
 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cors({ origin: "https://collaborative-code-editor-frontend-7ydc.onrender.com", credentials: true }));
 
 connectDB();
 
@@ -33,7 +33,7 @@ app.use("/api/", userRoutes);
 app.use("/api/", outputRoutes);
 
 
-app.use(express.static(path.join(__dirname, "../public/dist"))) // Serve static files
+// app.use(express.static(path.join(__dirname, "../public/dist"))) // Serve static files
 
 const server = http.createServer(app)
 // const io = new Server(server, {
@@ -46,7 +46,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "https://collaborative-code-editor-frontend-7ydc.onrender.com",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -291,10 +291,10 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000
 
-app.get("/", (req: Request, res: Response) => {
-	// Send the index.html file
-	res.sendFile(path.join(__dirname,"../public/dist/index.html"))
-})
+// app.get("/", (req: Request, res: Response) => {
+// 	// Send the index.html file
+// 	res.sendFile(path.join(__dirname,"../public/dist/index.html"))
+// })
 
 server.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}`)
