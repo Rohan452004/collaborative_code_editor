@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(express.json())
 
-app.use(cors({ origin: "https://collaborative-code-editor-byt1.onrender.com", credentials: true }));
+app.use(cors({ origin: "https://collaborative-code-editor-frontend-7ydc.onrender.com", credentials: true }));
 
 connectDB();
 
@@ -46,7 +46,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: "https://collaborative-code-editor-byt1.onrender.com",
+    origin: "https://collaborative-code-editor-frontend-7ydc.onrender.com",
     methods: ["GET", "POST"],
     credentials: true,
   },
