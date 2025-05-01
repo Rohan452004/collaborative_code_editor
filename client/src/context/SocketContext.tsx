@@ -27,7 +27,7 @@ export const useSocket = (): SocketContextType => {
     return context
 }
 
-const BACKEND_URL = "https://collaborative-code-editor-byt1.onrender.com"
+const BACKEND_URL = "https://collaborative-code-editor-backend-mcnl.onrender.com"
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
     const {
