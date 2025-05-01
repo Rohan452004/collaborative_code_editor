@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(express.json())
 
-// app.use(cors({ origin: "https://collaborative-code-editor-frontend-7ydc.onrender.com", credentials: true }));
+app.use(cors({ origin: "https://collaborative-code-editor-frontend-7ydc.onrender.com", credentials: true }));
 
 connectDB();
 
@@ -33,7 +33,7 @@ app.use("/api/", userRoutes);
 app.use("/api/", outputRoutes);
 
 
-app.use(express.static(path.join(__dirname, "../public/dist"))) // Serve static files
+// app.use(express.static(path.join(__dirname, "../public/dist"))) // Serve static files
 
 const server = http.createServer(app)
 // const io = new Server(server, {
