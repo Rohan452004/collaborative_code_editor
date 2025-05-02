@@ -1,10 +1,16 @@
 import react from "@vitejs/plugin-react"
 import { fileURLToPath, URL } from "url"
 import { defineConfig } from "vite"
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        nodePolyfills({
+            protocolImports: true,
+        }),
+    ],
     build: {
         chunkSizeWarningLimit: 1600,
         rollupOptions: {
@@ -32,7 +38,10 @@ export default defineConfig({
     preview: {
         port: 5173
     },
-    server:{
+    server: {
         open: true,
-    }
+    },
+    define: {
+        'process.env': {}, // sometimes required by dependencies using process.env
+    },
 })
