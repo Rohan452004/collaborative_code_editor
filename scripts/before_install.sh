@@ -10,7 +10,7 @@ yum update -y
 if ! command -v node &> /dev/null
 then
     echo "Node.js could not be found, installing..."
-    curl -sL https://rpm.nodesource.com/setup_20.x | bash -
+    curl -sL https://rpm.nodesource.com/setup_18.x | bash -
     yum install -y nodejs
 else
     echo "Node.js is already installed, skipping installation."
