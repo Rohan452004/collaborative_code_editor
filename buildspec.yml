@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+    commands:
+      - echo Installing dependencies...
+      - cd backend # Assuming your backend is in a 'backend' folder
+      - npm install
+      - cd ../frontend # Assuming your frontend is in a 'frontend' folder
+      - npm install
+      - echo Creating .env file for React frontend...
+      - echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" >> .env
+      - echo "VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID" >> .env
+
+  build:
+    commands:
+      - echo Building React frontend...
+      - npm run build # Assumes 'build' script exists in frontend/package.json
+      - echo Copying frontend build to backend public directory...
+      - mkdir -p ../backend/public
+      - cp -r build/* ../backend/public/
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Preparing artifacts...
+      - cd ../backend
+      - cp ../appspec.yml .
+      - cp -r ../scripts . # Copy the entire scripts directory
+
+artifacts:
+  files:
+    - '**/*' # Include all files from the backend directory (including node_modules, public, scripts, appspec.yml)
+  base-directory: backend # The root for the artifact zip will be the backend folder

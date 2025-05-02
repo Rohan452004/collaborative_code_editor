@@ -1,0 +1,239 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Sets up EC2 Instances behind a Load Balancer, with AutoScaling, Security Group, and IAM Role for EduNexus App deployment.
+
+Parameters:
+  # --- User inputs required at deployment time ---
+  KeyPairName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+    Type: AWS::EC2::KeyPair::KeyName
+
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t3.micro
+
+  AmiId:
+    Description: AMI ID for Amazon Linux 2 (or your app-specific AMI)
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  SshLocation:
+    Description: IP address range allowed to SSH into the EC2 instance
+    Type: String
+    Default: 0.0.0.0/0
+
+  AppPort:
+    Description: Application Port (Node.js App Port)
+    Type: Number
+    Default: 5001
+
+Resources:
+
+  # --- IAM Role for EC2 Instances (Allows SSM, S3 ReadOnly, Parameter Store Access) ---
+  MernAppEC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+      Policies:
+        - PolicyName: SSMParameterStoreReadOnly
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ssm:GetParameters
+                Resource: 
+                  - !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/codeit/*'  #Change here----
+
+  # --- IAM Instance Profile ---
+  MernAppInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref MernAppEC2Role
+
+  # --- Security Group for EC2 Instances ---
+  MernAppSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH, HTTP, HTTPS, and App Port
+      VpcId: vpc-091cff62f4cb6d025  # Change here --------
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref SshLocation  # SSH Access
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0         # HTTP
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0         # HTTPS
+        - IpProtocol: tcp
+          FromPort: !Ref AppPort
+          ToPort: !Ref AppPort
+          CidrIp: 0.0.0.0/0         # App Specific Port
+      Tags:
+        - Key: Name
+          Value: MernAppSG
+
+  # --- Security Group for Load Balancer ---
+  MernAppLoadBalancerSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow inbound traffic to Load Balancer on port 80
+      VpcId: vpc-091cff62f4cb6d025  # Change here -------
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: MernAppLoadBalancerSG
+
+  # --- Application Load Balancer (Internet-facing) ---
+  MernAppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: MernApp-ALB
+      Subnets:
+        - subnet-092bf2736e11ca9b2 # Change here ------
+        - subnet-03d63b06373e354b4 # Change here ------
+      SecurityGroups:
+        - !Ref MernAppLoadBalancerSG
+      Scheme: internet-facing
+      Type: application
+
+  # --- Target Group for Load Balancer ---
+  MernAppTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: vpc-091cff62f4cb6d025 # Change here ------
+      Port: !Ref AppPort
+      Protocol: HTTP
+      TargetType: instance
+      HealthCheckPath: /
+      HealthCheckPort: !Ref AppPort
+      HealthCheckProtocol: HTTP
+      Matcher:
+        HttpCode: 200
+
+  # --- Listener to forward traffic from Load Balancer to Target Group ---
+  MernAppListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref MernAppTargetGroup
+      LoadBalancerArn: !Ref MernAppLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  # --- Launch Template for AutoScaling Group ---
+  MernAppLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        InstanceType: !Ref InstanceType
+        KeyName: !Ref KeyPairName
+        ImageId: !Ref AmiId
+        IamInstanceProfile:
+          Name: !Ref MernAppInstanceProfile
+        SecurityGroupIds:
+          - !Ref MernAppSG
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            # Update and install dependencies
+            yum update -y
+            yum install ruby wget unzip -y
+            # Install CodeDeploy Agent
+            cd /home/ec2-user
+            wget https://aws-codedeploy-${AWS::Region}.s3.${AWS::Region}.amazonaws.com/latest/install
+            chmod +x ./install
+            ./install auto
+            service codedeploy-agent start
+            chkconfig codedeploy-agent on
+
+            # Install Node.js v16 and PM2 for the EC2 user
+            sudo -u ec2-user -i <<'EOF'
+            unset NVM_DIR
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="/home/ec2-user/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install 16
+            nvm use 16
+            nvm alias default 16
+            npm install -g pm2
+            EOF
+
+            # Install Node.js v16 and PM2 for the root user (optional redundancy)
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+            export NVM_DIR="/root/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install 16
+            nvm use 16
+            nvm alias default 16
+            npm install -g pm2
+
+            # Install AWS CLI v2
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            ./aws/install
+            rm -rf aws awscliv2.zip
+
+  # --- Auto Scaling Group to manage EC2 instances automatically ---
+  MernAppAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier:
+        - subnet-092bf2736e11ca9b2  # Change here ------
+      LaunchTemplate:
+        LaunchTemplateId: !Ref MernAppLaunchTemplate
+        Version: !GetAtt MernAppLaunchTemplate.LatestVersionNumber
+      MinSize: 1
+      MaxSize: 3
+      DesiredCapacity: 1
+      TargetGroupARNs:
+        - !Ref MernAppTargetGroup
+      HealthCheckType: EC2
+      HealthCheckGracePeriod: 300  # Wait time for new instances to become healthy
+      Tags:
+        - Key: Name
+          Value: MernAppServer-CFN
+          PropagateAtLaunch: true
+        - Key: Deploy
+          Value: edunexus
+          PropagateAtLaunch: true
+
+
+  MernAppScaleUpPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref MernAppAutoScalingGroup
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ASGAverageCPUUtilization
+        TargetValue: 50.0  # Scale up if CPU > 60%
+
+
+Outputs:
+  # --- Output the LoadBalancer DNS Name after stack creation ---
+  LoadBalancerDNSName:
+    Description: Public DNS name of the LoadBalancer
+    Value: !GetAtt MernAppLoadBalancer.DNSName
