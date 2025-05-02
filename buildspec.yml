@@ -17,7 +17,6 @@ phases:
   build:
     commands:
       - echo Building React frontend...
-      - cd frontend
       - npm run build
       - echo Copying frontend build to backend public directory...
       - mkdir -p ../backend/public
