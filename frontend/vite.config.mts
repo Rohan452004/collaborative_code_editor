@@ -9,6 +9,11 @@ export default defineConfig({
         react(),
         nodePolyfills({
             protocolImports: true,
+            globals: {
+                Buffer: true,
+                global: true,
+                process: true,
+            },
         }),
     ],
     build: {
@@ -60,4 +65,11 @@ export default defineConfig({
         'process.env': {}, // sometimes required by dependencies using process.env
         global: 'window',  // Polyfill global scope (some modules might rely on it)
     },
+    optimizeDeps: {
+        esbuildOptions: {
+            define: {
+                global: 'globalThis'
+            }
+        }
+    }
 })
