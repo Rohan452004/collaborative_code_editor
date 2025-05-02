@@ -10,7 +10,7 @@ sudo yum update -y || { echo "yum update failed"; exit 1; }
 if ! command -v node &> /dev/null
 then
     echo "Node.js could not be found, installing..."
-    sudo curl -sL https://rpm.nodesource.com/setup_20.x | bash - || { echo "Node.js setup failed"; exit 1; }
+    sudo curl -sL https://rpm.nodesource.com/setup_18.x | bash - || { echo "Node.js setup failed"; exit 1; }
     sudo yum install -y nodejs || { echo "Node.js installation failed"; exit 1; }
 else
     echo "Node.js is already installed, skipping installation."

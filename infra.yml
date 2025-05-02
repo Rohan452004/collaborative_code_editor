@@ -175,9 +175,9 @@ Resources:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
             export NVM_DIR="/home/ec2-user/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install 20
-            nvm use 20
-            nvm alias default 20
+            nvm install 18
+            nvm use 18
+            nvm alias default 18
             npm install -g pm2
             EOF
 
@@ -185,9 +185,9 @@ Resources:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
             export NVM_DIR="/root/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install 20
-            nvm use 20
-            nvm alias default 20
+            nvm install 18
+            nvm use 18
+            nvm alias default 18
             npm install -g pm2
 
             # Install AWS CLI v2
