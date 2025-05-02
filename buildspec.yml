@@ -26,7 +26,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Preparing artifacts...
-      - cd backend
+      - cd ../backend
       - cp ../appspec.yml .
       - cp -r ../scripts .
 
