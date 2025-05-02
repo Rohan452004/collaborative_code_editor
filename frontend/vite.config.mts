@@ -33,6 +33,11 @@ export default defineConfig({
                 find: "@",
                 replacement: fileURLToPath(new URL("./src", import.meta.url)),
             },
+            {
+                // Polyfill crypto module for compatibility
+                find: 'crypto',
+                replacement: 'crypto-browserify'
+            }
         ],
     },
     preview: {
