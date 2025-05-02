@@ -292,10 +292,10 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 3000
 
-// app.get("/", (req: Request, res: Response) => {
-// 	// Send the index.html file
-// 	res.sendFile(path.join(__dirname,"../public/dist/index.html"))
-// })
+app.get("/", (req: Request, res: Response) => {
+	// Send the index.html file
+	res.sendFile(path.join(__dirname,"../public/dist/index.html"))
+})
 
 server.listen(PORT, () => {
 	console.log(`Listening on port ${PORT}`)
