@@ -4,23 +4,23 @@ set -e
 echo "Installing Node.js..."
 
 # Update package lists
-yum update -y
+yum update -y || { echo "yum update failed"; exit 1; }
 
-# Install Node.js 16.x if not already installed
+# Install Node.js 18.x if not already installed
 if ! command -v node &> /dev/null
 then
     echo "Node.js could not be found, installing..."
-    curl -sL https://rpm.nodesource.com/setup_18.x | bash -
-    yum install -y nodejs
+    curl -sL https://rpm.nodesource.com/setup_18.x | bash - || { echo "Node.js setup failed"; exit 1; }
+    yum install -y nodejs || { echo "Node.js installation failed"; exit 1; }
 else
     echo "Node.js is already installed, skipping installation."
 fi
 
 # Create application directory if it doesn't exist
-mkdir -p /var/www/codeit
+mkdir -p /var/www/codeit || { echo "Directory creation failed"; exit 1; }
 
 # Install PM2 globally
-npm install -g pm2
+npm install -g pm2 || { echo "PM2 installation failed"; exit 1; }
 
 # Check versions
 echo "Node.js version:"
@@ -31,6 +31,6 @@ echo "PM2 version:"
 pm2 -v
 
 # Cleanup package manager cache (optional)
-yum clean all
+yum clean all || { echo "yum clean failed"; exit 1; }
 
 echo "Node.js installation completed"
