@@ -21,6 +21,9 @@ phases:
       - echo Copying frontend build to backend public directory...
       - mkdir -p ../backend/public
       - cp -r dist/* ../backend/public/
+      - echo Building backend TypeScript...
+      - cd ../backend
+      - npm run build
 
   post_build:
     commands:
