@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# Set AWS region environment variables
 export AWS_REGION=ap-south-1
 export AWS_DEFAULT_REGION=ap-south-1
 
@@ -11,13 +10,13 @@ cd $APP_DIR
 echo "Starting Node application from $APP_DIR..."
 echo "Fetching environment variables from AWS Parameter Store..."
 
-# Check AWS CLI configuration
+# Ensure AWS CLI is configured
 if ! aws sts get-caller-identity > /dev/null 2>&1; then
   echo "AWS CLI is not configured. Please configure AWS CLI."
   exit 1
 fi
 
-# Define all your parameter names
+# Define all parameter names
 PARAMS=(
   "/codeit/PORT"
   "/codeit/DATABASE_URL"
@@ -33,11 +32,11 @@ PARAMS=(
   "/codeit/JUDGE0_API_BASE_URL"
 )
 
-# Fetch parameters
+# Fetch parameters from AWS SSM
 for param in "${PARAMS[@]}"; do
   name=$(basename "$param")
   value=$(aws ssm get-parameter --name "$param" --with-decryption --query Parameter.Value --output text) || { echo "Failed to fetch $name"; exit 1; }
-  export $name="$value"
+  export "$name=$value"
 done
 
 # Write to .env file
@@ -57,25 +56,27 @@ JUDGE0_API_KEY=$JUDGE0_API_KEY
 JUDGE0_API_BASE_URL=$JUDGE0_API_BASE_URL
 EOF
 
-# Check if PM2 is installed, if not, install it
+# Ensure PM2 is installed
 if ! command -v pm2 &> /dev/null; then
     echo "PM2 not found. Installing PM2..."
-    npm install -g pm2
+    sudo npm install -g pm2
 fi
 
-# Check if Node.js is installed, if not, exit
+# Ensure Node.js is installed
 if ! command -v node &> /dev/null; then
     echo "Node.js not found. Please ensure Node.js is installed."
     exit 1
 fi
 
-echo "Starting application with PM2..."
+# Ensure server file exists
+[ -f "$APP_DIR/dist/server.js" ] || { echo "Server file not found!"; exit 1; }
 
-# Start the Node.js application using PM2
+# Start application with PM2
+echo "Starting application with PM2..."
 pm2 start "$APP_DIR/dist/server.js" --name "codeit" --env production
 
-# Enable PM2 to start on boot
-pm2 startup | bash || echo "PM2 startup script failed"
-pm2 save || echo "PM2 save failed"
+# Ensure PM2 is configured to start on reboot
+eval "$(pm2 startup ubuntu)"
+pm2 save
 
 echo "Application started successfully."

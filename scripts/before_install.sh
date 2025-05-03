@@ -4,16 +4,16 @@ set -e
 echo "Installing Node.js..."
 
 # Update package lists
-if ! sudo yum update -y; then
-  echo "yum update failed."
+if ! sudo apt update -y; then
+  echo "apt update failed."
   exit 1
 fi
 
-# Install Node.js 18.x if not already installed
+# Install Node.js 20.x if not already installed
 if ! command -v node &> /dev/null; then
     echo "Node.js could not be found, installing..."
-    curl -sL https://rpm.nodesource.com/setup_16.x | bash -
-    yum install -y nodejs
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+    sudo apt install -y nodejs
 else
     echo "Node.js is already installed, skipping installation."
 fi
@@ -45,8 +45,8 @@ echo "PM2 version:"
 pm2 -v
 
 # Cleanup package manager cache (optional)
-if ! sudo yum clean all; then
-    echo "yum clean failed."
+if ! sudo apt clean; then
+    echo "apt clean failed."
     exit 1
 fi
 

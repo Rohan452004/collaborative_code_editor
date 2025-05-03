@@ -16,9 +16,9 @@ Parameters:
       - t3.micro
 
   AmiId:
-    Description: AMI ID for Amazon Linux 2 (or your app-specific AMI)
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+    Description: Ubuntu 22.04 LTS AMI ID
+    Type: AWS::EC2::Image::Id
+    Default: ami-0fc5d935ebf8bc3bc  # Ubuntu 22.04 (update this bas
 
   SshLocation:
     Description: IP address range allowed to SSH into the EC2 instance
@@ -158,36 +158,20 @@ Resources:
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
-            # Update and install dependencies
-            yum update -y
-            yum install ruby wget unzip -y
-            # Install CodeDeploy Agent
-            cd /home/ec2-user
+            apt update -y
+            apt install -y curl unzip ruby wget
+
+            # Install AWS CodeDeploy Agent
+            cd /home/ubuntu
             wget https://aws-codedeploy-${AWS::Region}.s3.${AWS::Region}.amazonaws.com/latest/install
             chmod +x ./install
             ./install auto
-            service codedeploy-agent start
-            chkconfig codedeploy-agent on
+            systemctl start codedeploy-agent
+            systemctl enable codedeploy-agent
 
-            # Install Node.js v16 and PM2 for the EC2 user
-            sudo -u ec2-user -i <<'EOF'
-            unset NVM_DIR
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-            export NVM_DIR="/home/ec2-user/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install 16
-            nvm use 16
-            nvm alias default 16
-            npm install -g pm2
-            EOF
-
-            # Install Node.js v16 and PM2 for the root user (optional redundancy)
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-            export NVM_DIR="/root/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm install 16
-            nvm use 16
-            nvm alias default 16
+            # Install Node.js 20 using NodeSource
+            curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            apt install -y nodejs
             npm install -g pm2
 
             # Install AWS CLI v2
@@ -195,6 +179,7 @@ Resources:
             unzip awscliv2.zip
             ./aws/install
             rm -rf aws awscliv2.zip
+
 
   # --- Auto Scaling Group to manage EC2 instances automatically ---
   MernAppAutoScalingGroup:
