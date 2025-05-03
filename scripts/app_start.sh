@@ -36,7 +36,7 @@ PARAMS=(
 for param in "${PARAMS[@]}"; do
   name=$(basename "$param")
   value=$(aws ssm get-parameter --name "$param" --with-decryption --query Parameter.Value --output text) || { echo "Failed to fetch $name"; exit 1; }
-  export "$name=$value"
+  export "$name"="$value"
 done
 
 # Write to .env file
@@ -76,7 +76,7 @@ echo "Starting application with PM2..."
 pm2 start "$APP_DIR/dist/server.js" --name "codeit" --env production
 
 # Ensure PM2 is configured to start on reboot
-eval "$(pm2 startup ubuntu)"
+pm2 startup systemd -u root --hp /root
 pm2 save
 
 echo "Application started successfully."

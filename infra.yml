@@ -18,7 +18,7 @@ Parameters:
   AmiId:
     Description: Ubuntu 22.04 LTS AMI ID
     Type: AWS::EC2::Image::Id
-    Default: ami-0fc5d935ebf8bc3bc  # Ubuntu 22.04 (update this bas
+    Default: ami-0e35ddab05955cf57  # Ubuntu 22.04 (update this bas
 
   SshLocation:
     Description: IP address range allowed to SSH into the EC2 instance
