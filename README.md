@@ -14,7 +14,7 @@ Demo Link : https://collaborative-code-editor-byt1.onrender.com
 - 🚀 Unique room generation with room ID for collaboration
 - 🌍 Comprehensive language support for versatile programming
 - 🌈 Syntax highlighting for various file types with auto-language detection
-- 🚀 Code Execution: Users can execute the code directly within the collaboration environment
+- 🚀 Code Execution: Users can execute the code directly within the collaboration environment (Piston)
 - ⏱️ Instant updates and synchronization of code changes across all files and folders
 - 📣 Notifications for user join and leave events
 - 👥 User presence list with online/offline status indicators
@@ -23,8 +23,8 @@ Demo Link : https://collaborative-code-editor-byt1.onrender.com
 - 💡 Auto suggestion based on programming language
 - 🔠 Option to change font size and font family
 - 🎨 Multiple themes for personalized coding experience
-- 🎨 Collaborative Drawing: Enable users to draw and sketch collaboratively in real-time
-- 🤖 Copilot: An AI-powered assistant that generates code, allowing you to insert, copy, or replace content seamlessly within your files.
+- 🎨 Collaborative Drawing: Enable users to draw and sketch collaboratively in real-time (Tldraw)
+- 🤖 Copilot: An AI-powered assistant that generates code, allowing you to insert, copy, or replace content seamlessly within your files. (Pollination)
 
 ## 💻 Tech Stack
 
@@ -37,6 +37,6 @@ Demo Link : https://collaborative-code-editor-byt1.onrender.com
 ![Socket io](https://img.shields.io/badge/Socket.io-ffffff?style=for-the-badge)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Render](https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white)
 
 
