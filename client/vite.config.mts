@@ -33,6 +33,7 @@ export default defineConfig({
         port: 5173
     },
     server:{
-        open: true,
-    }
+        host: true,
+        open: true
+        }
 })

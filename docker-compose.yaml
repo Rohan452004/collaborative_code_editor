@@ -1,0 +1,35 @@
+services:
+  mongodb:
+    container_name: mongodb-service
+    image: mongo:latest
+    volumes:
+      - ./server/data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    restart: unless-stopped
+
+  backend:
+    container_name: server
+    build: ./server
+    env_file:
+      - ./server/.env
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  frontend:
+    container_name: client
+    build: ./client
+    env_file:
+      - ./client/.env
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+
+volumes:
+  data:
