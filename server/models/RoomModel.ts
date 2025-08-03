@@ -31,7 +31,7 @@ const RoomSchema = new Schema<IRoom>({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 60 * 60, // Expires after 1 hour
+    // expires: 60 * 60, // Expires after 1 hour
   },
 });
 
