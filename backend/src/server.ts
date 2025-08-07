@@ -12,7 +12,7 @@ import path from "path"
 
 dotenv.config()
 
-const connectDB = require("../config/db").connectDB;
+const connectDB = require("./config/db").connectDB;
 
 const app = express()
 
@@ -26,8 +26,8 @@ connectDB();
 
 // Routes
 
-import userRoutes from "../routes/user"
-import outputRoutes from "../routes/output"
+import userRoutes from "./routes/user"
+import outputRoutes from "./routes/output"
 
 app.use("/api/", userRoutes);
 app.use("/api/", outputRoutes);

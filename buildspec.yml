@@ -1,0 +1,39 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo Installing dependencies...
+      - cd backend
+      - npm install
+      - cd ../frontend
+      - npm install
+      - echo "Creating .env file for React frontend..."
+      - echo "VITE_BACKEND_URL=$VITE_BACKEND_URL" > .env
+      - echo "VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID" >> .env
+
+  build:
+    commands:
+      - echo Building React frontend...
+      - npm run build
+      - echo Copying frontend build to backend public directory...
+      - mkdir -p ../backend/public
+      - cp -r dist/* ../backend/public/
+      - echo Building backend TypeScript...
+      - cd ../backend
+      - npm run build
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Preparing artifacts...
+      - cd ../backend
+      - cp ../appspec.yml .
+      - cp -r ../scripts .
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: backend
