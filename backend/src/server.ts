@@ -12,7 +12,7 @@ import path from "path"
 
 dotenv.config()
 
-const connectDB = require("../config/db").connectDB;
+const connectDB = require("./config/db").connectDB;
 
 const app = express()
 
