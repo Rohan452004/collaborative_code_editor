@@ -1,6 +1,6 @@
 import express from "express";
 import authMiddleware from "../middleware/auth";
-import { registerUser, loginUser, sendotp, googlelogin } from "../controllers/userController";
+import { registerUser, loginUser, sendotp, googlelogin, logoutUser} from "../controllers/userController";
 import { createRoom, requestAccess, approveAccess, checkAccess, checkUserRole } from "../controllers/room";
 import { resetPasswordToken, resetPassword } from "../controllers/resetPasswordController";
 
@@ -19,5 +19,8 @@ router.get("/checkUserRole", authMiddleware, checkUserRole);
 
 router.post("/reset-password-token", resetPasswordToken);
 router.post("/reset-password", resetPassword);
+
+//logout route
+router.post("/logout",logoutUser)
 
 export default router;

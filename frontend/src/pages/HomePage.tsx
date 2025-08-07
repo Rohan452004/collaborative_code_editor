@@ -172,11 +172,28 @@ const Home = () => {
       setLoading(false);
     }
   };
+
+
   
-  const handleLogout = () => {
+  const handleLogout = async () => {
+
+  try{
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/logout`, {}, { withCredentials: true });
+    if (response.data.success) {
+      toast.success("Logged out successfully!");
+    } else {
+      toast.error("Logout failed!");
+    }
+  
+  }catch(error){
+    toast.error("Logout failed!");
+    console.error("Logout error:", error);
+  }finally{
     navigate("/");
     sessionStorage.clear();
     localStorage.clear();
+  }
+
   };
 
 return (

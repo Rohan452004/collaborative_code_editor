@@ -50,7 +50,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
     credentials: true,
   },
-    // transports: ["websocket", "polling"],
+    	transports: ["websocket", "polling"],
 	maxHttpBufferSize: 1e8,
 	pingTimeout: 60000, 
 });

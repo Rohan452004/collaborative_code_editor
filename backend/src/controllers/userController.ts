@@ -208,3 +208,26 @@ export const googlelogin = async (req: Request, res:Response) => {
 };
 
 
+//logout
+export const logoutUser = async (req: Request, res: Response) => {
+  try {
+    // Clear the token cookie
+    res.clearCookie("token", {
+      httpOnly: true,
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: "Strict",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "User logged out successfully",
+    });
+  } catch (error) {
+    console.error("Logout Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Logout failed",
+    });
+  }
+};
+

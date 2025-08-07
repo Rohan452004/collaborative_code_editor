@@ -1,6 +1,13 @@
-
 A collaborative, real-time code editor where users can seamlessly code together. It provides a platform for multiple users to enter a room, share a unique room ID, and collaborate on code simultaneously.
+Demo Link : https://collaborative-code-editor-byt1.onrender.com
 
+![WhatsApp Image 2025-05-07 at 20 41 46](https://github.com/user-attachments/assets/2d052ddc-61f7-4ad6-9f37-d4040af6aa73)
+
+
+<p align="center"><strong><span style="font-size:40px;">CodeIt CI/CD Pipeline Architecture</span></strong></p>
+<p align="center">
+  <img width="1106" alt="Screenshot 2025-04-28 at 12 58 31 PM" src="https://github.com/user-attachments/assets/3169ec77-1db0-438f-8f19-799379495d9e" />
+</p>
 
 ## 🔮 Features
 
@@ -10,7 +17,7 @@ A collaborative, real-time code editor where users can seamlessly code together.
 - 🚀 Unique room generation with room ID for collaboration
 - 🌍 Comprehensive language support for versatile programming
 - 🌈 Syntax highlighting for various file types with auto-language detection
-- 🚀 Code Execution: Users can execute the code directly within the collaboration environment
+- 🚀 Code Execution: Users can execute the code directly within the collaboration environment (Piston)
 - ⏱️ Instant updates and synchronization of code changes across all files and folders
 - 📣 Notifications for user join and leave events
 - 👥 User presence list with online/offline status indicators
@@ -19,8 +26,8 @@ A collaborative, real-time code editor where users can seamlessly code together.
 - 💡 Auto suggestion based on programming language
 - 🔠 Option to change font size and font family
 - 🎨 Multiple themes for personalized coding experience
-- 🎨 Collaborative Drawing: Enable users to draw and sketch collaboratively in real-time
-- 🤖 Copilot: An AI-powered assistant that generates code, allowing you to insert, copy, or replace content seamlessly within your files.
+- 🎨 Collaborative Drawing: Enable users to draw and sketch collaboratively in real-time (Tldraw)
+- 🤖 Copilot: An AI-powered assistant that generates code, allowing you to insert, copy, or replace content seamlessly within your files. (Pollination)
 
 ## 💻 Tech Stack
 
@@ -33,4 +40,6 @@ A collaborative, real-time code editor where users can seamlessly code together.
 ![Socket io](https://img.shields.io/badge/Socket.io-ffffff?style=for-the-badge)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Render](https://img.shields.io/badge/Render-000000?style=for-the-badge&logo=render&logoColor=white)
+
+
