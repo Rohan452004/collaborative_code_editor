@@ -55,11 +55,15 @@ export default defineConfig({
             },
         ],
     },
-    preview: {
-        port: 5173,
-    },
     server: {
-        open: true,
+        host: "0.0.0.0",
+        port: 5173,
+        open: false
+    },
+    preview: {
+        host: "0.0.0.0",
+        port: 5173,
+        open: false
     },
     define: {
         'process.env': {}, // sometimes required by dependencies using process.env
