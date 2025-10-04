@@ -105,7 +105,7 @@ export const requestAccess = async (req: AuthenticatedRequest, res: Response): P
     // Send email using Resend via mailSender
     await mailSender(
       room.ownerEmail,
-      "🔑 Room Access Request - Action Required",
+      "Room Access Request - Action Required",
       emailHtml
     );
 
