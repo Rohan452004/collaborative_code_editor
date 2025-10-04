@@ -30,7 +30,7 @@ const OTPSchema = new Schema<IOTP>({
 const sendVerificationEmail = async (email: string, otp: string): Promise<void> => {
   try {
     const mailResponse = await mailSender(email, "Verification Email", emailTemplate(otp));
-    console.log("Email sent successfully:", mailResponse?.response);
+    console.log("Email sent successfully:", mailResponse);
   } catch (error) {
     console.error("Error occurred while sending email:", (error as Error).message);
     throw error;

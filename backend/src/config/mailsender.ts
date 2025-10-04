@@ -1,26 +1,50 @@
-import nodemailer from "nodemailer";
+import { google } from "googleapis";
 import dotenv from "dotenv";
 
-export const mailSender = async (email: any, title: string, body: string) => {
+dotenv.config();
+
+const CLIENT_ID = process.env.GMAIL_CLIENT_ID!;
+const CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET!;
+const REDIRECT_URI = "https://developers.google.com/oauthplayground"; // or your own redirect URI
+const REFRESH_TOKEN = process.env.GMAIL_REFRESH_TOKEN!;
+const GMAIL_USER = process.env.GMAIL_USER!;
+
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
+);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+export const mailSender = async (email: string, title: string, body: string) => {
   try {
-    let transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST,
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+    const accessToken = await oAuth2Client.getAccessToken();
+
+    const gmail = google.gmail({ version: "v1", auth: oAuth2Client });
+
+    const encodedMessage = Buffer.from(
+      `From: "CodeIt" <${GMAIL_USER}>\r\n` +
+      `To: ${email}\r\n` +
+      `Subject: ${title}\r\n` +
+      `Content-Type: text/html; charset=utf-8\r\n\r\n` +
+      `${body}`
+    )
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+
+    const result = await gmail.users.messages.send({
+      userId: "me",
+      requestBody: {
+        raw: encodedMessage,
       },
     });
 
-    let info = await transporter.sendMail({
-      from: "CodeIt || Collaborative Coding Platform",
-      to: `${email}`,
-      subject: `${title}`,
-      html: `${body}`,
-    });
-    console.log(info);
-    return info;
+    console.log("Email sent successfully:", result.data);
+    return result.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error sending email:", error);
+    throw error;
   }
 };
-
