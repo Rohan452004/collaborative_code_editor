@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
 import Room from "../models/RoomModel";
+import { mailSender } from "../config/mailsender";
 
 dotenv.config();
 
@@ -83,41 +83,33 @@ export const requestAccess = async (req: AuthenticatedRequest, res: Response): P
     const approvalLink = `${FRONTEND}/approve-access?roomId=${roomId}&email=${email}&approve=true`;
     const rejectionLink = `${FRONTEND}/approve-access?roomId=${roomId}&email=${email}&approve=false`;
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: room.ownerEmail,
-      subject: "🔑 Room Access Request - Action Required",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-          <h2 style="color: #333; text-align: center;">🔔 Access Request for Your Room</h2>
-          <p style="font-size: 16px; color: #555;">
-            <strong>${email}</strong> has requested access to your room <strong>${roomId}</strong>.
-          </p>
-          <p style="font-size: 16px; color: #555;">Please approve or reject the request using the buttons below:</p>
-          <div style="text-align: center; margin: 20px 0;">
-            <a href="${approvalLink}" style="display: inline-block; padding: 12px 20px; font-size: 16px; font-weight: bold; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px; margin-right: 10px;">
-               ✅ Approve
-            </a>
-            <a href="${rejectionLink}" style="display: inline-block; padding: 12px 20px; font-size: 16px; font-weight: bold; color: white; background-color: #dc3545; text-decoration: none; border-radius: 5px;">
-               ❌ Reject
-            </a>
-          </div>
-          <p style="font-size: 14px; color: #777; text-align: center;">If you did not expect this request, you can ignore this email.</p>
+    const emailHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: #333; text-align: center;">🔔 Access Request for Your Room</h2>
+        <p style="font-size: 16px; color: #555;">
+          <strong>${email}</strong> has requested access to your room <strong>${roomId}</strong>.
+        </p>
+        <p style="font-size: 16px; color: #555;">Please approve or reject the request using the buttons below:</p>
+        <div style="text-align: center; margin: 20px 0;">
+          <a href="${approvalLink}" style="display: inline-block; padding: 12px 20px; font-size: 16px; font-weight: bold; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+             ✅ Approve
+          </a>
+          <a href="${rejectionLink}" style="display: inline-block; padding: 12px 20px; font-size: 16px; font-weight: bold; color: white; background-color: #dc3545; text-decoration: none; border-radius: 5px;">
+             ❌ Reject
+          </a>
         </div>
-      `,
-    };
+        <p style="font-size: 14px; color: #777; text-align: center;">If you did not expect this request, you can ignore this email.</p>
+      </div>
+    `;
 
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent");
+    // Send email using Resend via mailSender
+    await mailSender(
+      room.ownerEmail,
+      "🔑 Room Access Request - Action Required",
+      emailHtml
+    );
 
+    console.log("Email sent successfully to room owner");
     res.json({ success: true, message: "Request sent to room owner" });
   } catch (error) {
     console.error(error);
